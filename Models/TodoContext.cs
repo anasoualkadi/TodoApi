@@ -11,7 +11,7 @@ public class TodoContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder
-        .UseLazyLoadingProxies() // permet l'utilisation du chargement difere Lazy de toute les propriete virtual des models
+        // .UseLazyLoadingProxies() // permet l'utilisation du chargement difere Lazy de toute les propriete virtual des models
         .UseMySql("Server=localhost;Database=dbdotnet;User=admin;Password=root;", new MySqlServerVersion(new Version(8, 0, 21)));
     }
 
@@ -22,11 +22,19 @@ public class TodoContext : DbContext
             .WithOne(u => u.User)
             .HasForeignKey(u => u.UserId)
             .IsRequired(false);
+
+        modelBuilder.Entity<User>()
+            .HasOne(u => u.Contract)
+            .WithOne(u => u.User)
+            .HasForeignKey<Contract>(u => u.UserId)
+            .IsRequired(false);
     }
 
     // Remplace par la version de ton serveur MySQL
     public DbSet<TodoItem> TodoItems { get; set; } = null!;
 
     public DbSet<User> Users { get; set; } = null!;
+
+    public DbSet<Contract> Contracts { get; set; } = null!;
 
 }

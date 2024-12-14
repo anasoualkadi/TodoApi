@@ -7,4 +7,6 @@ public class User
     public string? Surname { get; set; }
     public virtual ICollection<TodoItem>? TodoItems { get; set; }
 
+    public Contract? Contract { get; set; }
+
 }
